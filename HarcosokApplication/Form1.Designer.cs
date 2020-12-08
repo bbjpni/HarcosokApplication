@@ -66,7 +66,7 @@
             // 
             // BTNharcosLetrehozas
             // 
-            this.BTNharcosLetrehozas.Location = new System.Drawing.Point(181, 21);
+            this.BTNharcosLetrehozas.Location = new System.Drawing.Point(181, 20);
             this.BTNharcosLetrehozas.Name = "BTNharcosLetrehozas";
             this.BTNharcosLetrehozas.Size = new System.Drawing.Size(105, 30);
             this.BTNharcosLetrehozas.TabIndex = 2;

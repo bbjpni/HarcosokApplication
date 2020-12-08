@@ -14,11 +14,13 @@ namespace HarcosokApplication
     public partial class Form1 : Form
     {
         private MySqlConnection conn;
+        MySqlCommand sql;
         public Form1()
         {
 
             InitializeComponent();
             adatbazis();
+            tablaLetrehozas();
         }
 
         private void adatbazis() {
@@ -31,7 +33,7 @@ namespace HarcosokApplication
             try
             {
                 conn.Open();
-                MySqlCommand sql = conn.CreateCommand();
+                sql = conn.CreateCommand();
             }
             catch (MySqlException ex)
             {
@@ -39,6 +41,22 @@ namespace HarcosokApplication
                 Environment.Exit(0);
             }
             MessageBox.Show("Kapcsolat létrejött.", "Adatbázis Info");
+        }
+
+        private void tablaLetrehozas()
+        {
+            try
+            {
+                sql.CommandText = "CREATE TABLE IF NOT EXISTS cs_harcosok.harcosok ( id INT NOT NULL AUTO_INCREMENT , nev TINYTEXT NOT NULL , letrehozas DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP , PRIMARY KEY (id));";
+                sql.ExecuteNonQuery();
+                sql.CommandText = "CREATE TABLE IF NOT EXISTS cs_harcosok.kepessegek ( id INT NOT NULL AUTO_INCREMENT , nev TINYTEXT NOT NULL , leiras TEXT NOT NULL , harcos_id INT NOT NULL , PRIMARY KEY (id));;";
+                sql.ExecuteNonQuery();
+            }
+            catch (MySqlException ex)
+            {
+
+                MessageBox.Show(ex.Message, "Adatbázis Info");
+            }
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
