@@ -16,6 +16,7 @@ namespace HarcosokApplication
         private List<Hero> lista;
         private MySqlConnection conn;
         MySqlCommand sql;
+
         public Form1()
         {
 
