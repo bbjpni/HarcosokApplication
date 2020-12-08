@@ -252,6 +252,7 @@
             this.Controls.Add(this.GBharcosLetrehozas);
             this.Name = "Form1";
             this.Text = "Form1";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.GBharcosLetrehozas.ResumeLayout(false);
             this.GBharcosLetrehozas.PerformLayout();
             this.GBkepessegHozzaadas.ResumeLayout(false);
