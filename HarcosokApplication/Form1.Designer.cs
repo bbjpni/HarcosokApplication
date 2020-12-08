@@ -72,6 +72,7 @@
             this.BTNharcosLetrehozas.TabIndex = 2;
             this.BTNharcosLetrehozas.Text = "Létrehozás";
             this.BTNharcosLetrehozas.UseVisualStyleBackColor = true;
+            this.BTNharcosLetrehozas.Click += new System.EventHandler(this.BTNharcosLetrehozas_Click);
             // 
             // TBharcosNev
             // 
