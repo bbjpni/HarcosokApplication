@@ -14,6 +14,7 @@ namespace HarcosokApplication
     public partial class Form1 : Form
     {
         private List<Hero> lista;
+        private List<Skill> lista2;
         private MySqlConnection conn;
         MySqlCommand sql;
 
@@ -24,6 +25,7 @@ namespace HarcosokApplication
             adatbazis();
             tablaLetrehozas();
             CBhasznalo_feltolt();
+            LBOXharcosok_feltolt();
         }
 
         private void adatbazis() {
@@ -90,6 +92,7 @@ namespace HarcosokApplication
                             sql.CommandText = "INSERT INTO harcosok (id, nev, letrehozas) VALUES (NULL, '" + TBharcosNev.Text + "', current_timestamp());";
                             sql.ExecuteNonQuery();
                             CBhasznalo_feltolt();
+                            LBOXharcosok_feltolt();
                             MessageBox.Show(("Sikeresen felvettük "+ TBharcosNev.Text + " nevű harcost"), "Adatbázis Info");
                         }
                         catch (MySqlException ex)
@@ -140,6 +143,129 @@ namespace HarcosokApplication
             }
             catch (Exception ex) {
                 MessageBox.Show(ex.Message, "Rendszer Info");
+            }
+        }
+
+        private void BTNkepesseg_Click(object sender, EventArgs e)
+        {
+            if (TBnev2.Text.Trim().Equals(""))
+            {
+                MessageBox.Show("Nem megfelelő a név", "Rendszer Info");
+            }
+            else if (TBleiras.Text.Trim().Equals(""))
+            {
+                MessageBox.Show("Nem megfelelő a leírás", "Rendszer Info");
+            }
+            else if (CBhasznalo.SelectedIndex == -1)
+            {
+                MessageBox.Show("Nincs kiválasztva harcos", "Rendszer Info");
+            }
+            else
+            {
+                sql.CommandText = "INSERT INTO kepessegek (id, nev, leiras, harcos_id) VALUES (NULL, '"+ TBnev2.Text + "', '"+ TBleiras.Text + "', '"+ lista[CBhasznalo.SelectedIndex].Id + "');";
+                sql.ExecuteNonQuery();
+                MessageBox.Show(("Sikeresen felvettük a képességet"), "Adatbázis Info");
+            }
+        }
+
+        private void LBOXharcosok_feltolt()
+        {
+            LBOXharcosok.Items.Clear();
+            foreach (Hero item in lista)
+            {
+                LBOXharcosok.Items.Add(item + "\t" + item.Letrehozas.ToString());
+            }
+        }
+
+        private void LBOXharcosok_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (LBOXharcosok.SelectedIndex == -1)
+            {
+                MessageBox.Show("Nincs kiválasztva harcos", "Rendszer Info");
+            }
+            else
+            {
+                LBOXkepessegek.Items.Clear();
+                TBleiras2.Text = "";
+                lista2 = new List<Skill>();
+                try
+                {
+                    sql.CommandText = "SELECT id, nev, leiras FROM kepessegek WHERE harcos_id = '" + lista[LBOXharcosok.SelectedIndex].Id + "';";
+                    using (MySqlDataReader dr = sql.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            Skill temp = new Skill(dr.GetInt32("id"), dr.GetString("nev"), dr.GetString("leiras") );
+                            lista2.Add(temp);
+                            LBOXkepessegek.Items.Add(temp);
+                        }
+                    }
+                }
+                catch (MySqlException ex)
+                {
+
+                    MessageBox.Show(ex.Message, "Adatbázis Info");
+                }
+            }
+        }
+
+        private void LBOXkepessegek_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (LBOXkepessegek.SelectedIndex == -1)
+            {
+                MessageBox.Show("Nincs kiválasztva képesség", "Rendszer Info");
+            }
+            else
+            {
+                TBleiras2.Text = lista2[LBOXkepessegek.SelectedIndex].Leiras;
+            }
+        }
+
+        private void BTNtöröl_Click(object sender, EventArgs e)
+        {
+            if (LBOXkepessegek.SelectedIndex == -1)
+            {
+                MessageBox.Show("Nincs kiválasztva képesség", "Rendszer Info");
+            }
+            else
+            {
+                try
+                {
+                    sql.CommandText = "DELETE FROM kepessegek WHERE id = '"+ lista2[LBOXkepessegek.SelectedIndex].Id + "';";
+                    sql.ExecuteNonQuery();
+                    MessageBox.Show(("Sikeresen eltávolítottuk a  képességet"), "Adatbázis Info");
+                }
+                catch (MySqlException ex)
+                {
+
+                    MessageBox.Show(ex.Message, "Adatbázis Info");
+                }
+            }
+        }
+
+        private void BTNmodositas_Click(object sender, EventArgs e)
+        {
+            if (LBOXkepessegek.SelectedIndex == -1)
+            {
+                MessageBox.Show("Nincs kiválasztva képesség", "Rendszer Info");
+            }
+            else if (TBleiras2.Text.Trim().Equals(""))
+                {
+                MessageBox.Show("Nem megfelelő a leírás", "Rendszer Info");
+            }
+            else
+            {
+                try
+                {
+                    sql.CommandText = "UPDATE kepessegek SET leiras = '" + TBleiras2.Text + "' WHERE kepessegek.id = '" + lista2[LBOXkepessegek.SelectedIndex].Id + "';";
+                    sql.ExecuteNonQuery();
+                    lista2[LBOXkepessegek.SelectedIndex].Leiras = TBleiras2.Text;
+                    MessageBox.Show(("Sikeresen megvátoztatuk a  képességet"), "Adatbázis Info");
+                }
+                catch (MySqlException ex)
+                {
+                    MessageBox.Show(ex.Message, "Adatbázis Info");
+                }
             }
         }
     }

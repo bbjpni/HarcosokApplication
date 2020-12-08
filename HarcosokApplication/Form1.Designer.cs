@@ -148,6 +148,7 @@
             this.BTNkepesseg.TabIndex = 2;
             this.BTNkepesseg.Text = "Hozzáad";
             this.BTNkepesseg.UseVisualStyleBackColor = true;
+            this.BTNkepesseg.Click += new System.EventHandler(this.BTNkepesseg_Click);
             // 
             // TBnev2
             // 
@@ -182,6 +183,7 @@
             this.LBOXharcosok.Name = "LBOXharcosok";
             this.LBOXharcosok.Size = new System.Drawing.Size(200, 292);
             this.LBOXharcosok.TabIndex = 9;
+            this.LBOXharcosok.SelectedIndexChanged += new System.EventHandler(this.LBOXharcosok_SelectedIndexChanged);
             // 
             // LBOXkepessegek
             // 
@@ -191,6 +193,7 @@
             this.LBOXkepessegek.Name = "LBOXkepessegek";
             this.LBOXkepessegek.Size = new System.Drawing.Size(200, 292);
             this.LBOXkepessegek.TabIndex = 10;
+            this.LBOXkepessegek.SelectedIndexChanged += new System.EventHandler(this.LBOXkepessegek_SelectedIndexChanged);
             // 
             // LBkepessegek
             // 
@@ -209,6 +212,7 @@
             this.BTNtöröl.TabIndex = 8;
             this.BTNtöröl.Text = "Töröl";
             this.BTNtöröl.UseVisualStyleBackColor = true;
+            this.BTNtöröl.Click += new System.EventHandler(this.BTNtöröl_Click);
             // 
             // TBleiras2
             // 
@@ -235,6 +239,7 @@
             this.BTNmodositas.TabIndex = 12;
             this.BTNmodositas.Text = "Módosítás";
             this.BTNmodositas.UseVisualStyleBackColor = true;
+            this.BTNmodositas.Click += new System.EventHandler(this.BTNmodositas_Click);
             // 
             // Form1
             // 
